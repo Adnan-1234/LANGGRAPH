@@ -17,7 +17,7 @@ class AutoGitHandler(FileSystemEventHandler):
             subprocess.run(["git", "add", "."], cwd=REPO_PATH)
             subprocess.run(["git", "commit", "-m", "Auto push"], cwd=REPO_PATH)
             subprocess.run(["git", "push"], cwd=REPO_PATH)
-            print("✅ Pushed to GitHub\n")
+            print("✅ Pushed to GitHub\n")  
 
 # Pehle check karo git init hua ya nahi
 if not os.path.exists(os.path.join(REPO_PATH, ".git")):
