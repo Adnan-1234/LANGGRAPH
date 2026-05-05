@@ -10,28 +10,70 @@ GITHUB_REPO_LINK = "https://github.com/Adnan-1234/LANGGRAPH.git"
 
 REPO_PATH = os.path.dirname(os.path.abspath(__file__))
 
+def remove_lock_file():
+    """Remove index.lock file if exists"""
+    lock_file = os.path.join(REPO_PATH, ".git", "index.lock")
+    if os.path.exists(lock_file):
+        try:
+            os.remove(lock_file)
+            print("🔓 Removed existing index.lock file")
+        except Exception as e:
+            print(f"⚠️ Could not remove lock file: {e}")
+
+def run_git_command(cmd, cwd):
+    """Run git command with lock file handling"""
+    remove_lock_file()  # Remove lock before each command
+    result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    
+    # Agar lock file error aaye toh remove karke dobara try karo
+    if "index.lock" in result.stderr:
+        remove_lock_file()
+        result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    
+    if result.returncode != 0 and result.stderr:
+        # Ignore "nothing to commit" error
+        if "nothing to commit" not in result.stderr:
+            print(f"⚠️ Git warning: {result.stderr}")
+    
+    return result
+
 class AutoGitHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if not event.is_directory:
+            # Thoda wait karo file write complete hone ke liye
+            time.sleep(0.5)
+            
             print(f"🔄 Change detected: {os.path.basename(event.src_path)}")
-            subprocess.run(["git", "add", "."], cwd=REPO_PATH)
-            subprocess.run(["git", "commit", "-m", "Auto push"], cwd=REPO_PATH)
-            subprocess.run(["git", "push"], cwd=REPO_PATH)
+            
+            # Git add
+            run_git_command(["git", "add", "."], REPO_PATH)
+            
+            # Git commit (ignore agar kuch commit karne ko nahi hai)
+            result = run_git_command(["git", "commit", "-m", "Auto push"], REPO_PATH)
+            if "nothing to commit" in result.stderr:
+                print("📝 No changes to commit")
+                return
+            
+            # Git push
+            run_git_command(["git", "push"], REPO_PATH)
             print("✅ Pushed to GitHub\n")  
+
+# Pehle lock file remove karo
+remove_lock_file()
 
 # Pehle check karo git init hua ya nahi
 if not os.path.exists(os.path.join(REPO_PATH, ".git")):
     print("🔧 First time setup - Initializing git...")
-    subprocess.run(["git", "init"], cwd=REPO_PATH)
-    subprocess.run(["git", "remote", "add", "origin", GITHUB_REPO_LINK], cwd=REPO_PATH)
-    subprocess.run(["git", "branch", "-M", "main"], cwd=REPO_PATH)
+    run_git_command(["git", "init"], REPO_PATH)
+    run_git_command(["git", "remote", "add", "origin", GITHUB_REPO_LINK], REPO_PATH)
+    run_git_command(["git", "branch", "-M", "main"], REPO_PATH)
     print("✅ Git initialized with your repo link")
 
 # Pehli baar sab files ko push karo
 print("📤 Pushing all existing files to GitHub...")
-subprocess.run(["git", "add", "."], cwd=REPO_PATH)
-subprocess.run(["git", "commit", "-m", "Initial commit - all files"], cwd=REPO_PATH)
-subprocess.run(["git", "push", "-u", "origin", "main"], cwd=REPO_PATH)
+run_git_command(["git", "add", "."], REPO_PATH)
+run_git_command(["git", "commit", "-m", "Initial commit - all files"], REPO_PATH)
+run_git_command(["git", "push", "-u", "origin", "main"], REPO_PATH)
 print("✅ Initial push complete!\n")
 
 # Ab watch karo
