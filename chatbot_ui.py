@@ -30,4 +30,4 @@ if user_input:
     # first add the message to message_history
     st.session_state['message_history'].append({'role': 'assistant', 'content': ai_message})
     with st.chat_message('assistant'):
-        st.text(ai_message)
+        st.text(ai_messag)
