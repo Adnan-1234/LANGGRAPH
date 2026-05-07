@@ -94,7 +94,7 @@ if user_input:
     with st.chat_message('assistant'):
 
         ai_message = st.write_stream(
-            chunk.content for message_chunk, metadata in chatbot.stream(
+            message_chunk.content for message_chunk, metadata in chatbot.stream(
                 {'messages': [HumanMessage(content=user_input)]},
                 config= CONFIG,
                 stream_mode= 'messages'
