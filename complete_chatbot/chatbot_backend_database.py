@@ -20,7 +20,7 @@ graph=StateGraph(Chatstate)
 def message_node(state:Chatstate):
     message =state['message']
     if not message or len(message) == 0:
-    response=model.invoke(message)
+        response=model.invoke(message)
     return {"message": [response]}
 
 graph.add_node('message_node',message_node)
