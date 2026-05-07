@@ -18,10 +18,21 @@ class Chatstate(TypedDict):
 graph=StateGraph(Chatstate)
 
 def message_node(state:Chatstate):
-    message =state['message']
+    message = state['message']
+    
+    # FIX: Handle empty messages
     if not message or len(message) == 0:
-        response=model.invoke(message)
-    return {"message": [response]}
+        # Return a default greeting
+        default_response = AIMessage(content="Hello! I'm your AI assistant. How can I help you today?")
+        return {"message": [default_response]}
+    
+    try:
+        response = model.invoke(message)
+        return {"message": [response]}
+    except Exception as e:
+        # Handle API errors gracefully
+        error_response = AIMessage(content=f"Sorry, I encountered an error: {str(e)}")
+        return {"message": [error_response]}
 
 graph.add_node('message_node',message_node)
 graph.add_edge(START,'message_node')
