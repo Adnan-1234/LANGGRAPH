@@ -15,6 +15,7 @@ model = ChatGroq(
 class Chatstate(TypedDict):
     message : Annotated[list[BaseMessage],add_messages]
 graph=StateGraph(Chatstate)
+
 def message_node(state:Chatstate):
     message =state['message']
     response=model.invoke(message)
