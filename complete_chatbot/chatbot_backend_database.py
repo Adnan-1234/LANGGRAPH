@@ -25,7 +25,7 @@ graph.add_edge('message_node',END)
 import sqlite3
 connector=sqlite3.connect(database="checkpoint.db",check_same_thread=False)
 checkpointer=SqliteSaver(conn=connector)
-workflow=graph.compile(checkpointer=checkpointer)
+chat=graph.compile(checkpointer=checkpointer)
 
 def retrieve_all_threads():
     all_threads = set()
