@@ -20,7 +20,7 @@ graph=StateGraph(Chatstate)
 def message_node(state:Chatstate):
     message = state['message']
     
-    # FIX: Handle empty messages
+    
     if not message or len(message) == 0:
         # Return a default greeting
         default_response = AIMessage(content="Hello! I'm your AI assistant. How can I help you today?")
