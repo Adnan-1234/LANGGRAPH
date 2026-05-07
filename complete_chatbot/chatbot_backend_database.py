@@ -13,6 +13,7 @@ model = ChatGroq(
     api_key=GROQ_API_KEY  
 )
 class Chatstate(TypedDict):
+    
     message : Annotated[list[BaseMessage],add_messages]
 graph=StateGraph(Chatstate)
 
