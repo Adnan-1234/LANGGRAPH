@@ -13,7 +13,7 @@ model = ChatGroq(
     api_key=GROQ_API_KEY  
 )
 class Chatstate(TypedDict):
-    
+
     message : Annotated[list[BaseMessage],add_messages]
 graph=StateGraph(Chatstate)
 
@@ -21,6 +21,7 @@ def message_node(state:Chatstate):
     message =state['message']
     response=model.invoke(message)
     return {"message": [response]}
+
 graph.add_node('message_node',message_node)
 graph.add_edge(START,'message_node')
 graph.add_edge('message_node',END)
