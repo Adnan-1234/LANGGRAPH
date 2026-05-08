@@ -11,7 +11,6 @@ from langchain_core.tools import tool
 import sqlite3
 import requests
 import os
-
 load_dotenv(dotenv_path=".env", override=True)
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 llm= ChatGroq(
@@ -19,7 +18,6 @@ llm= ChatGroq(
     api_key=GROQ_API_KEY  
 )
 search_tool=DuckDuckGoSearchRun(region="us-en")
-
 @tool
 def calculator(first_num: float, second_num: float, operation: str) -> dict:
     """
@@ -56,14 +54,12 @@ def get_stock_price(symbol: str) -> dict:
     url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey=C9PE94QUEW9VWGFM"
     r = requests.get(url)
     return r.json()
-
 tools=[search_tool,get_stock_price,calculator]
 
 llm_with_tools=llm.bind_tools(tools)
-
 class chatstate(TypedDict):
     messages: Annotated[list[BaseMessage],add_messages]
-
+    
 graph=StateGraph(chatstate)
 def msg_node(state:chatstate):
     """LLM node that may answer or request a tool call."""
@@ -72,10 +68,13 @@ def msg_node(state:chatstate):
     return {"messages": [response]}
 
 tool_node = ToolNode(tools)
-
+conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
+checkpointer = SqliteSaver(conn=conn)
 graph.add_node('msg_node',msg_node)
-graph.add_edge(START,msg_node)
-graph.add_conditional_edges(msg_node,tool_node)
-graph.add_edge(tool_node,msg_node)
-graph.add_edge(msg_node,END)
-
+graph.add_node("tools", tool_node)
+graph.add_edge(START,'msg_node')
+graph.add_conditional_edges('msg_node',tools_condition)
+graph.add_edge('tools','msg_node')
+graph.add_edge('msg_node',END)
+chatbot=graph.compile(checkpointer=checkpointer)
+chatbot
