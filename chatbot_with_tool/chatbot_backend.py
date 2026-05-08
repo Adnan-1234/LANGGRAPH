@@ -19,5 +19,6 @@ model = ChatGroq(
     api_key=GROQ_API_KEY  
 )
 search_tool=DuckDuckGoSearchRun(region="us-en")
+
 @tool
 
