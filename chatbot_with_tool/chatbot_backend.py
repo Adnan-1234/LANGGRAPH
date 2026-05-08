@@ -74,5 +74,5 @@ def msg_node(state:chatstate):
 tool_node = ToolNode(tools)
 
 graph.add_node('msg_node',msg_node)
-graph.add_
+graph.add_edge()
 
