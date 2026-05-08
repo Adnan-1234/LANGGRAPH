@@ -18,4 +18,4 @@ model = ChatGroq(
     model="llama-3.3-70b-versatile",  
     api_key=GROQ_API_KEY  
 )
-search_tool=DuckDuckGoSearchRun()
+search_tool=DuckDuckGoSearchRun('en-us')
