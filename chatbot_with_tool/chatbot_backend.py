@@ -77,3 +77,9 @@ graph.add_conditional_edges('msg_node',tools_condition)
 graph.add_edge('tools','msg_node')
 graph.add_edge('msg_node',END)
 chatbot=graph.compile(checkpointer=checkpointer)
+
+def retrieve_all_threads():
+    all_threads = set()
+    for checkpoint in checkpointer.list(None):
+        all_threads.add(checkpoint.config["configurable"]["thread_id"])
+    return list(all_threads)
