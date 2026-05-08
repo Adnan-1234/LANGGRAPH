@@ -19,3 +19,4 @@ model = ChatGroq(
     api_key=GROQ_API_KEY  
 )
 search_tool=DuckDuckGoSearchRun('en-us')
+@
