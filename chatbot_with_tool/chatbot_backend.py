@@ -65,7 +65,7 @@ class chatstate(TypedDict):
     messages: Annotated[list[BaseMessage],add_messages]
 
 graph=StateGraph(chatstate)
-def msg_node(state):
+def msg_node(state:chatstate):
 
 
 
