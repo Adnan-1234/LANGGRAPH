@@ -76,5 +76,5 @@ tool_node = ToolNode(tools)
 graph.add_node('msg_node',msg_node)
 graph.add_edge('START',msg_node)
 graph.add_conditional_edges(msg_node,tool_node)
-graph
+graph.add_edge
 
