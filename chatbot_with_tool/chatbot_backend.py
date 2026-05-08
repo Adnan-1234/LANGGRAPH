@@ -66,6 +66,12 @@ class chatstate(TypedDict):
 
 graph=StateGraph(chatstate)
 def msg_node(state:chatstate):
+    """LLM node that may answer or request a tool call."""
+    messages = state["messages"]
+    response = llm_with_tools.invoke(messages)
+    return {"messages": [response]}
+
+tool_node = ToolNode(tools)
 
 
 
