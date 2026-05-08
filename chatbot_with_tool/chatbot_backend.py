@@ -66,8 +66,8 @@ class chatstate(TypedDict):
 
 graph=StateGraph(chatstate)
 def msg_node():
-
-
     
+
+
 graph.add_node('msg_node',msg_node)
 
