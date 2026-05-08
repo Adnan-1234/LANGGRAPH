@@ -59,3 +59,4 @@ def get_stock_price(symbol: str) -> dict:
 
 tools=[search_tool,get_stock_price,calculator]
 
+
