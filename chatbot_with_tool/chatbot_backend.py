@@ -64,5 +64,6 @@ llm_with_tools=llm.bind_tools(tools)
 class chatstate(TypedDict):
     messages: Annotated[list[BaseMessage],add_messages]
 
-graph=StateGraph()
+graph=StateGraph(chatstate)
+
 
