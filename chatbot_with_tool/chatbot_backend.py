@@ -59,5 +59,5 @@ def get_stock_price(symbol: str) -> dict:
 
 tools=[search_tool,get_stock_price,calculator]
 
-llm_with_tools=llm.
+llm_with_tools=llm.bind
 
