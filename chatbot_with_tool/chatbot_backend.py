@@ -61,3 +61,4 @@ tools=[search_tool,get_stock_price,calculator]
 
 llm_with_tools=llm.bind_tools(tools)
 
+
