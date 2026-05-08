@@ -10,7 +10,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.tools import tool
 import sqlite3
 import requests
-
+import os
 
 load_dotenv(dotenv_path=".env", override=True)
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
