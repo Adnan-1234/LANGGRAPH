@@ -57,5 +57,5 @@ def get_stock_price(symbol: str) -> dict:
     r = requests.get(url)
     return r.json()
 
-tools=[sea]
+tools=[search_tool,]
 
