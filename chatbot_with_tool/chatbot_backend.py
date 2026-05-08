@@ -77,4 +77,3 @@ graph.add_conditional_edges('msg_node',tools_condition)
 graph.add_edge('tools','msg_node')
 graph.add_edge('msg_node',END)
 chatbot=graph.compile(checkpointer=checkpointer)
-chatbot
