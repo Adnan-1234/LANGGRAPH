@@ -183,6 +183,5 @@ graph.add_conditional_edges('chat',tools_condition)
 graph.add_edge("tools",'chat')
 graph.add_edge('chat',END)
 chatbot=graph.compile(checkpointer=checkpointer)
-chatbot
 
 
