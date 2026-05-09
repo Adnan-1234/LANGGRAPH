@@ -12,4 +12,5 @@ env.bak/
 venv.bak/
 log/
 .log
-
+.db
+.db/
