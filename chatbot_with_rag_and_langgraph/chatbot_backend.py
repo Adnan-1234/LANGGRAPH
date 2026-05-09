@@ -16,7 +16,7 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import sqlite3
 import tempfile
-from __future__ import annotations
+
 from langchain_community.vectorstores import FAISS
 
 load_dotenv(dotenv_path=".env", override=True)
