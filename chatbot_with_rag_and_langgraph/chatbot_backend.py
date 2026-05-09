@@ -168,7 +168,7 @@ def rag_tool(query: str, thread_id: Optional[str] = None) -> dict:
 
 tools = [search_tool, get_stock_price, calculator, rag_tool]
 llm_with_tools = llm.bind_tools(tools)
-def chat(state: ChatState, config=None):
+def chat(state: chatstate, config=None):
     """LLM node that may answer or request a tool call."""
     thread_id = None
     if config and isinstance(config, dict):
