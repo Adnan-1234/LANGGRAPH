@@ -433,7 +433,7 @@ def _gemini_generate_image_bytes(prompt: str) -> bytes:
     Env var: GOOGLE_API_KEY
     """
     from google import genai
-    from gena import types
+    from  import types
 
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
