@@ -432,8 +432,8 @@ def _gemini_generate_image_bytes(prompt: str) -> bytes:
     Requires: pip install google-genai
     Env var: GOOGLE_API_KEY
     """
-    from google import genai
-    from google. import types
+    from google import genai,types
+  
 
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
